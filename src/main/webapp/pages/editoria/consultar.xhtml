@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Consultar de Editoria</title>
+</h:head>
+<h:body>
+	<h:form id="formPrincipal">
+		<p:commandButton value="Cadastrar"
+			onclick="PF('dlgCadastrarEditoria').show();" />
+		<p:commandButton value="Alterar"
+			onclick="PF('dlgAlterarEditoria').show();" />
+		<p:dataTable value="#{editoriaBean.lista}" var="j" id="tabela">
+			<p:column headerText="ID">
+				<p:outputLabel value="#{j.id}" />
+			</p:column>
+			<p:column headerText="Nome">
+				<p:outputLabel value="#{j.nome}" />
+			</p:column>
+			<p:column headerText="Ação">
+				<p:commandButton value="Deletar"
+					action="#{editoriaBean.remover(j)}" update="tabela" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+<p:dialog dynamic="true" widgetVar="dlgCadastrarEditoria"
+	header="Cadastrar Editoria" width="auto" height="auto"
+	closable="true" resizable="false" modal="true">
+	<h:form id="formCadastrarEditoria">
+		<p:panel id="pnlCadastrarEditoria">
+			<p:outputLabel value="Nome: " />
+			<p:inputText value="#{editoriaBean.editoria.nome}" />
+			<p:commandButton value="Salvar" action="#{editoriaBean.salvar}"
+				onclick="PF('dlgCadastrarEditoria').hide();"
+				update="formPrincipal" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+<p:dialog dynamic="true" widgetVar="dlgAlterarEditoria"
+	header="Alterar Editoria" width="auto" height="auto" closable="true"
+	resizable="false" modal="true">
+	<h:form id="formAlterarEditoria">
+		<p:panel id="pnlAlterarEditoria">
+			<p:outputLabel value="Nome: " />
+			<p:selectOneMenu value="#{editoriaBean.editoria.id}">
+				<f:selectItems value="#{editoriaBean.lista}" var="j"
+					itemLabel="#{j.nome}" itemValue="#{j.id}" />
+			</p:selectOneMenu>
+			<p:inputText value="#{editoriaBean.editoria.nome}" />
+			<p:commandButton value="Salvar" action="#{editoriaBean.alterar}"
+				onclick="PF('dlgAlterarEditoria').hide();"
+				update="formPrincipal" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+</html>
